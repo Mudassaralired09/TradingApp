@@ -1,0 +1,277 @@
+Trading Master AI (Open Source Edition)
+
+> Create a real-time, open-source-based AI-powered crypto analysis app named Trading Master.
+The app should provide technical + sentiment + trading logic using only free and open-source APIs, and be deployable on Cloudflare, Vercel, or Netlify.
+
+
+
+
+---
+
+🔍 Primary Features Overview
+
+✅ Real-time trend prediction (LONG/SHORT/HOLD)
+✅ Contract address or name-based token recognition
+✅ Technical indicator scanner (open-source TA library)
+✅ Leverage-based trading planner (SL, TP, liquidation)
+✅ Sentiment via Fear & Greed + free news sources
+✅ Chart image analyzer via AI vision (OCR + pattern detection)
+✅ No crashing, async-safe architecture (no v18/v19 version conflict)
+
+
+---
+
+⚙️ Functional Modules
+
+
+---
+
+🔹 1. 🔍 Token Recognition & Search
+
+Input methods:
+
+✅ Binance-listed coins dropdown (fetched from CoinGecko)
+
+✅ Symbol search (e.g., BTC, SOL, ETH)
+
+✅ Paste contract address
+→ Use CoinGecko API to fetch coin data from contract (ERC-20, BEP-20 supported)
+
+
+Show metadata: name, logo, market cap, volume, current price
+
+
+> API: https://api.coingecko.com/api/v3/coins/
+Free & Open. No auth key needed.
+
+
+
+
+---
+
+🔹 2. 📈 Technical Indicator Engine
+
+Open-source indicator calculations using TA-Lib or Tulip Indicators or Lightweight Charts
+
+Calculate:
+
+EMA(5,10,20,50,100,200)
+
+MACD, RSI, Bollinger Bands
+
+Volume divergence
+
+Stochastic, VWAP
+
+
+Candle data via Binance API (public endpoints)
+
+
+> API: https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m
+Use open-source chart library like Lightweight Charts
+
+
+
+
+---
+
+🔹 3. 🧠 Trend Prediction AI
+
+Use open-source language model or custom logic:
+
+Run logic combining:
+✅ Indicator output
+✅ Volume movement
+✅ Trend direction
+✅ News sentiment
+
+
+Output:
+
+📈 Trend: LONG / SHORT / HOLD
+
+💡 Confidence Score (0–100%)
+
+🧾 Summary explanation
+
+
+
+> No GPT required. Use:
+
+LangChain + HuggingFace (e.g., distilbert, llama.cpp)
+
+Or fully rule-based AI (no LLM at all)
+
+
+
+
+
+---
+
+🔹 4. 📷 Screenshot Upload & Chart Analyzer
+
+User uploads image (e.g., screenshot from TradingView)
+
+Run image through:
+
+OCR: Tesseract.js or EasyOCR (open source)
+
+AI pattern detection: YOLOv5, Detectron2, or OpenCV
+
+
+Match extracted values with Binance data for trend confirmation
+
+
+
+---
+
+🔹 5. 📊 Leverage Trading Calculator
+
+Input:
+
+Entry Price
+
+Leverage (1x to 125x)
+
+Position Size or Wallet Balance
+
+
+Auto-calculate:
+
+✅ Liquidation Price
+
+✅ Stop Loss (e.g., 2–3% below entry or ATR)
+
+✅ Take Profit (R:R 1:2 or resistance level)
+
+
+> Formula (Long example):
+
+
+
+liq = entry * (1 - (1 / leverage))
+sl = entry * 0.97
+tp = entry * 1.05
+
+
+---
+
+🔹 6. 📰 Sentiment & News Module
+
+Use CryptoPanic (Free tier), or NewsAPI, or open RSS feeds
+
+Fetch latest 5 news headlines for selected token or category
+
+Run NLP sentiment analysis using TextBlob or HuggingFace Transformers
+
+Show:
+
+🟢 Positive / 🔴 Negative / 🟡 Neutral
+
+Headline highlights
+
+Impact rating (Low/Med/High)
+
+
+
+> Fear & Greed Index API
+https://api.alternative.me/fng/
+
+
+
+
+---
+
+🔹 7. 🎨 UI/UX Design
+
+Framework: Tailwind CSS + Next.js or plain HTML/CSS
+
+Responsive layout for mobile & desktop
+
+Tabs or Cards:
+
+📈 Technicals
+
+📊 Trade Planner
+
+🧠 AI Forecast
+
+📰 News
+
+📷 Chart Upload
+
+
+
+> Use Open Source Tailwind templates for clean dashboards
+
+
+
+
+---
+
+🔹 8. 🔐 Safety & Bug-Free Design
+
+All API calls are debounced (200–500ms)
+
+Use async queue to avoid v18/v19 call errors:
+
+
+let isProcessing = false;
+async function safeRun(task) {
+  if (isProcessing) return;
+  isProcessing = true;
+  await task();
+  isProcessing = false;
+}
+
+Rate-limit Binance API calls to avoid IP bans
+
+Auto-retry on timeout/fail (max 3x)
+
+
+
+---
+
+🔗 APIs Used (All Free/Open-Source)
+
+API / Tool	Use
+
+Binance (public)	Real-time candle & price
+CoinGecko	Coin metadata & contract info
+CryptoPanic / RSS	News feeds
+Alternative.me	Fear & Greed Index
+TA-Lib / Tulip	Indicator calculations
+Tesseract.js	OCR for screenshots
+EasyOCR / YOLOv5	Chart pattern detection
+TextBlob / Transformers	Sentiment scoring
+Tailwind / Next.js	UI/UX rendering
+
+
+
+---
+
+🧪 User Input Examples
+
+> "Show SOL 15m trend and trade levels using 10x leverage."
+"Upload this chart and tell me if SHIB is going long."
+"Paste contract: 0xdAC17F958D2ee523a2206206994597C13D831ec7 and show SL/TP/Liq."
+
+
+
+
+---
+
+✅ Final Instruction
+
+> Build a fully open-source, real-time crypto trading intelligence app using only free APIs and tools.
+Ensure:
+
+Clean, responsive UI
+
+Real-time predictions
+
+Accurate calculations
+
+Bug-free async-safe architecture (no double version errors)
+
+
